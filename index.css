@@ -1,0 +1,151 @@
+body, html {
+  padding: 0px;
+  margin: 0px;
+}
+
+button {
+  border: none;
+  background: none;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', sans-serif;
+}
+
+img#logo {
+  width: 160px;
+  margin-bottom: -15px;
+  position: absolute;
+  left: 33px;
+  flex-grow: 0;
+}
+
+
+.header-content {
+  max-width: 1024px;
+  width: 100%;
+  margin: 0 auto;
+  height: 100px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.header-top {
+  background: url('img.jpg') repeat-x;
+  background-size: 10px 10px;
+  height: 5px;
+  position: relative;
+}
+
+.header-footer {
+  background: url('img.jpg') repeat-x;
+  background-size: 30px 30px;
+  height: 25px;
+  position: relative;
+}
+h1 {
+  font-size: 24px;
+  font-weight: 100;
+  align-self: flex-end;
+  font-weight: bold;
+  font-family: 'Montserrat Alternates', sans-serif;
+  color: #839ebd;
+}
+
+h1 > span {
+  text-transform: uppercase;
+}
+nav {
+  width: 100%;
+  height: 50px;
+  flex-shrink: 0;
+  background: #ddf0fd;
+  border-bottom: 1px solid #88a0c0;
+}
+
+.nav-content {
+  max-width: 1024px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding-left: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-item {
+  height: 50px;
+  line-height: 50px; 
+  width: 143px;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 17px;
+  text-transform: uppercase;
+  color: #7a6091;
+  cursor: pointer;
+  outline: none;
+  letter-spacing: 0.5;
+  font-family: 'Montserrat Alternates', sans-serif;
+}
+
+.nav-item:hover {
+  border-bottom: 1px solid #7a6091;
+}
+
+.nav-item-chosen {
+  border-bottom: 2px solid #7a6091;
+  font-weight: bold;
+}
+
+.nav-item-chosen:hover {
+  border-bottom: 2px solid #7a6091;
+}
+
+main {
+  flex-grow: 1;
+  width: 100%;
+  background: #f6fbfb;
+}
+
+.main-content {
+  max-width: 1024px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 30px 50px 20px;
+  line-height: 1.5;
+}
+
+
+.main-page, .contacts-page, .documents-page {
+  transition: opacity 0.3s linear 0.3s, height 0s linear 0.6s;
+  overflow: hidden;
+}
+
+.hidden {
+  transition: opacity 0.3s linear, height 0s linear 0.3s;
+  opacity: 0;
+  height: 0;
+}
+
+footer {
+  width: 100%;
+  border-top: 1px solid #88a0c0;
+  background: #ddf0fd;
+}
+
+.footer-content {
+  width: 1024px;
+  margin: 0 auto;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-family: 'Montserrat Alternates', sans-serif;
+}
