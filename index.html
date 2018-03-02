@@ -65,12 +65,17 @@
 			console.log('Loaded');
 			const pathname = window.location.pathname.substring(1, window.location.pathname.length);
 			handlePageLinkClick(pathname);
-			// document.getElementsByClassName('main-content')[0].innerHTML = content[pathname] || content.main;
 		};
 
 		function handlePageLinkClick(name) {
 			history.replaceState({}, name, name);
-			document.getElementsByClassName('main-content')[0].innerHTML = content[name] || content.main;
+			const mainContent = document.getElementsByClassName('main-content')[0];
+			mainContent.style="opacity:0";
+			setTimeout(() => {
+				mainContent.innerHTML = content[name] || content.main;
+				mainContent.style="opacity:1";
+			}, 300);
+			
 			const activeLink = document.getElementsByClassName('nav-item-chosen')[0];
 			activeLink.className = activeLink.className.split(' ').filter(cn => cn !== 'nav-item-chosen').join(' ');
 			
