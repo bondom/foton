@@ -64,15 +64,16 @@
 		window.onload = function() {
 			console.log('Loaded');
 			const pathname = window.location.pathname.substring(1, window.location.pathname.length);
-			document.getElementsByClassName('main-content')[0].innerHTML = content[pathname] || content.main;
+			handlePageLinkClick(pathname);
+			// document.getElementsByClassName('main-content')[0].innerHTML = content[pathname] || content.main;
 		};
 
 		function handlePageLinkClick(name) {
-			document.getElementsByClassName('main-content')[0].innerHTML = content[name];
+			document.getElementsByClassName('main-content')[0].innerHTML = content[name] || content.main;
 			const activeLink = document.getElementsByClassName('nav-item-chosen')[0];
 			activeLink.className = activeLink.className.split(' ').filter(cn => cn !== 'nav-item-chosen').join(' ');
 
-			const newActiveLink = document.getElementsByClassName(name)[0];
+			const newActiveLink = document.getElementsByClassName(name)[0] || document.getElementsByClassName('main')[0];
 			newActiveLink.className+=' nav-item-chosen';
 		}
 	</script> 
