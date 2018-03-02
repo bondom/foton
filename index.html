@@ -10,65 +10,15 @@
 	<link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates" rel="stylesheet">
 	<title>Фотон</title>
 	<script>
-	/* 	window.onpopstate = function(event) {
+		
+	/* 		window.onpopstate = function(event) {
 			alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
 			const pageName = document.location.pathname.substring(1, document.location.pathname.length); 
 			const loc = pageName ? pageName + '-page' : 'main-page';
 			handlePageLinkClick(loc);
 		}; */
 
-		let activePageClassName = 'main-page'; 
-		const MAP = {
-			'main-page': 0,
-			'contacts-page': 1,
-			'documents-page': 2
-		};
-		console.log('Location: ' + window.location.pathname);
-		function handlePageLinkClick(name) {
-			console.log('Handled: ' + name);
-			console.log('Location: ' + window.location.pathname);
-			history.replaceState({}, name, name.split('-')[0]);
-			if ( name === activePageClassName ) return;
-			const newPage = document.getElementsByClassName(name)[0];
-			newPage.className = newPage.className.split(' ')[0];
-			const activePage = document.getElementsByClassName(activePageClassName)[0];
-			activePage.className += ' hidden';
-			activePageClassName = name;
-			
-			const navItems = Array.prototype.slice.call(document.getElementsByClassName('nav-item'));
-			navItems.forEach(item => {
-				item.className = 'nav-item';
-			})
-			navItems[MAP[name]].className += ' nav-item-chosen';		
-		}
-	</script>
-</head>
-<body>
-  <div id="root">
-		<div class="header">
-			<div class="header-content">
-				<img src="foton-logo.png" id="logo"/>
-				<h1>Науково-виробниче підприємство <span>"Фотон"</span></h1>
-			</div>
-			<div class="header-footer"></div>
-		</div>
-		<nav>
-			<div class="nav-content">
-				<button class="nav-item nav-item-chosen" onclick="handlePageLinkClick('main-page');">
-					Головна
-				</button>
-				<button class="nav-item" onclick="handlePageLinkClick('contacts-page');">
-					Контакти
-				</button>
-				<button class="nav-item" onclick="handlePageLinkClick('documents-page');">
-					Документи
-				</button>	
-			</div>
-		</nav>
-		<main>
-			<div class="main-content">
-				<div class="main-page">
-					Нужна
+		const mainPage = `Нужна
 					1. Главная страничка<br></br>
 					2. Страничка контакты<br></br>
 					3. Страничка документы<br></br>
@@ -88,22 +38,69 @@
 					Нужно удобство добавления туда новых, удаления старых (несколько раз в год)
 					удобство скачивания, мини изображения не нужны просто гипер ссылка (устав, платник ПДВ, всего около 6-7 документов)
 					
-					будет лежать на www.foton.kiev.ua.
-				</div>
-				<div class="contacts-page hidden">
-					<h4>ТОВ “Науково-виробниче підприємство “Фотон”<br></br></h4>
-					03680, м. Київ, вул. Академіка Кримського, 27а, оф. 212<br></br> 
-					 р/р 26005052624186 в ПАТ КБ "Приватбанк" м. Києва,<br></br>
-					 ЄДРПОУ 23521196, МФО 320649, СПП №36377814,<br></br>
-					 ІПН 235211926547, 204-92-80, 204-83-85, 422-89-22<br></br>
-					 e-mail: dr0nt@ukr.net www.foton.kiev.ua
-				</div>
-				<div class="documents-page hidden">
-					Документы
-					<br></br>
-					<a href="Резюме.pdf" download>Резюме</a>
-				</div>
+					будет лежать на www.foton.kiev.ua.`;
+		
+		const contactsPage = `
+			<h4>ТОВ “Науково-виробниче підприємство “Фотон”<br></br></h4>
+			03680, м. Київ, вул. Академіка Кримського, 27а, оф. 212<br></br> 
+				р/р 26005052624186 в ПАТ КБ "Приватбанк" м. Києва,<br></br>
+				ЄДРПОУ 23521196, МФО 320649, СПП №36377814,<br></br>
+				ІПН 235211926547, 204-92-80, 204-83-85, 422-89-22<br></br>
+				e-mail: dr0nt@ukr.net www.foton.kiev.ua
+		`;
+
+		const documentsPage = `
+			Документы
+			<br></br>
+			<a href="Резюме.pdf" download>Резюме</a>
+		`;
+
+		const content = {
+			main: mainPage,
+			contacts: contactsPage,
+			documents: documentsPage
+		};
+
+		window.onload = function() {
+			console.log('Loaded');
+			const pathname = window.location.pathname.substring(1, window.location.pathname.length);
+			document.getElementsByClassName('main-content')[0].innerHTML = content[pathname] || content.main;
+		};
+
+		function handlePageLinkClick(name) {
+			document.getElementsByClassName('main-content')[0].innerHTML = content[name];
+			const activeLink = document.getElementsByClassName('nav-item-chosen')[0];
+			activeLink.className = activeLink.className.split(' ').filter(cn => cn !== 'nav-item-chosen').join(' ');
+
+			const newActiveLink = document.getElementsByClassName(name)[0];
+			newActiveLink.className+=' nav-item-chosen';
+		}
+	</script> 
+</head>
+<body>
+  <div id="root">
+		<div class="header">
+			<div class="header-content">
+				<img src="foton-logo.png" id="logo"/>
+				<h1>Науково-виробниче підприємство <span>"Фотон"</span></h1>
 			</div>
+			<div class="header-footer"></div>
+		</div>
+		<nav>
+			<div class="nav-content">
+				<button class="nav-item main nav-item-chosen" onclick="handlePageLinkClick('main');">
+					Головна
+				</button>
+				<button class="nav-item contacts" onclick="handlePageLinkClick('contacts');">
+					Контакти
+				</button>
+				<button class="nav-item documents" onclick="handlePageLinkClick('documents');">
+					Документи
+				</button>	
+			</div>
+		</nav>
+		<main>
+			<div class="main-content" />
 		</main>
 		<footer>
 			<div class="footer-content">
