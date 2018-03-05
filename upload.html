@@ -1,0 +1,146 @@
+<html>
+  <head>
+    <script src="encoding.js"></script>
+    <script>
+      const API_URL = 'http://localhost:3000/api/documents';
+      function getDocuments() {
+        const documentsElement = document.getElementsByClassName('documents')[0];
+        documentsElement.innerHTML="";
+        fetch(API_URL, {
+          method: 'GET'
+        })
+        .then(array => array.json())
+        .then(array => {
+          array.forEach(obj => {
+            const data = obj.document.data.data; // contains array of integers
+
+            const arrayBuffer = new Uint8Array(data).buffer;//converts array of integers to Array Buffer
+            const fileContentBase64 = new TextDecoder("utf-8").decode(arrayBuffer);
+
+            const link = createLink(obj.document.name, fileContentBase64);
+            const deleteBtn = createDeleteButton(obj._id);
+            const documentItemElement = document.createElement('div');
+
+            documentItemElement.appendChild(link);
+            documentItemElement.appendChild(deleteBtn);
+            documentsElement.appendChild(documentItemElement);
+          });
+        })
+        .catch(err => console.log(err));
+      }
+
+      function deleteDocument(documentId) {
+        fetch(API_URL + documentId, {
+          method: 'DELETE'
+        })
+        .then(doc => {
+          console.log('Deleted');
+          getDocuments();
+        })
+        .catch(err => console.log(err));
+      }
+
+      function createLink(name, base64content) {
+        const a = document.createElement('a');
+        const linkTextNode = document.createTextNode(name);
+        a.appendChild(linkTextNode);
+        a.title = `Download ${name}`;
+        a.href = `data:application/pdf;base64,${base64content}`;
+        a.download = name;
+        return a;
+      }
+
+      function createDeleteButton(documentId) {
+        const button = document.createElement('button');
+        const buttonTextNode = document.createTextNode('Delete');
+        button.appendChild(buttonTextNode);
+        button.onclick = () => deleteDocument(documentId);
+        return button;
+      }
+      
+
+      window.onload = () =>  {
+        start();
+        getDocuments();
+      }
+      function start() {
+
+        var file = {dom : document.getElementById("i2"), binary : null };
+        var reader = new FileReader();
+
+        // Because FileReader is asynchronous, store its
+        // result when it finishes to read the file
+        reader.addEventListener("load", function () {
+          file.binary = reader.result;
+        });
+
+        // If not, read the file once the user selects it.
+        file.dom.addEventListener("change", function () {
+          if(reader.readyState === FileReader.LOADING) {
+            reader.abort();
+          }
+          
+          reader.readAsBinaryString(file.dom.files[0]);
+        });
+
+        // sendData is our main function
+        function sendData() {
+          // If there is a selected file, wait it is read
+          // If there is not, delay the execution of the function
+          if(!file.binary && file.dom.files.length > 0) {
+            setTimeout(sendData, 10);
+            return;
+          }
+          var XHR = new XMLHttpRequest();
+          var boundary = "blob";
+          var data = "";
+
+          if (file.dom.files[0]) {
+            data += "--" + boundary + "\r\n";
+
+            data += 'content-disposition: form-data; '
+                  + 'name="'         + file.dom.name          + '"; '
+                  + 'filename="'     + file.dom.files[0].name + '"\r\n';
+            data += 'Content-Type: ' + file.dom.files[0].type + '\r\n';
+            data += '\r\n';
+            data += file.binary + '\r\n';
+            data += "--" + boundary + "--";
+          }
+
+
+          // Define what happens on successful data submission
+          XHR.addEventListener('load', function(event) {
+            console.log('Yeah! Data sent and response loaded.');
+            getDocuments();
+          });
+
+          // Define what happens in case of error
+          XHR.addEventListener('error', function(event) {
+            console.log('Oups! Something went wrong.');
+          });
+
+          XHR.open('POST', API_URL);
+          XHR.setRequestHeader('Content-Type','multipart/form-data; boundary=' + boundary);
+          XHR.send(data);
+        }
+
+        var form = document.getElementById("myForm");
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          sendData();
+        });
+      }
+    </script>
+  </head>
+  <body>
+    
+    <form id="myForm">
+      <label for="i2">file data:</label>
+      <input id="i2" name="myFile" type="file">
+      <button type>Save Document</button>
+    </form>
+
+    <div class="documents">
+    </div>
+  </body>
+</html>  
