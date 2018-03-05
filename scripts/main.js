@@ -86,7 +86,6 @@ function getDocumentsAndInsertIntoDom(withDeleteBtn = false) {
   .then(array => {
     array.forEach(obj => {
       const dataUrl = obj.document.data; // contains array of integers
-      console.log('dataUrl: ' + dataUrl);
       
       const documentItemElement = document.createElement('div');
       documentItemElement.appendChild(createLink(obj.document.name, dataUrl));
