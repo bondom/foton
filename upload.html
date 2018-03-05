@@ -30,7 +30,7 @@
       }
 
       function deleteDocument(documentId) {
-        fetch(API_URL + documentId, {
+        fetch(API_URL + '/' + documentId, {
           method: 'DELETE'
         })
         .then(doc => {
