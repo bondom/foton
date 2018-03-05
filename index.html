@@ -9,15 +9,9 @@
 	<link href="https://fonts.googleapis.com/css?family=Electrolize" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates" rel="stylesheet">
 	<title>Фотон</title>
+	<script src="scripts/encoding.js"></script>
+	<script src="scripts/main.js"></script>
 	<script>
-		
-	/* 		window.onpopstate = function(event) {
-			alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
-			const pageName = document.location.pathname.substring(1, document.location.pathname.length); 
-			const loc = pageName ? pageName + '-page' : 'main-page';
-			handlePageLinkClick(loc);
-		}; */
-
 		const mainPage = `Нужна
 					1. Главная страничка<br></br>
 					2. Страничка контакты<br></br>
@@ -52,7 +46,9 @@
 		const documentsPage = `
 			Документы
 			<br></br>
-			<a href="Резюме.pdf" download>Резюме</a>
+			<div class="documents-list">
+			
+			</div>
 		`;
 
 		const content = {
@@ -69,11 +65,22 @@
 
 		function handlePageLinkClick(name) {
 			history.replaceState({}, name, name);
+			replaceContentAndChangeStyles(name, () => loadData(name));
+		}
+
+		function loadData(name) {
+			if(name === 'documents') {
+				getDocumentsAndInsertIntoDom();
+			}
+		}
+
+		function replaceContentAndChangeStyles(name, callback) {
 			const mainContent = document.getElementsByClassName('main-content')[0];
 			mainContent.style="opacity:0";
 			setTimeout(() => {
 				mainContent.innerHTML = content[name] || content.main;
 				mainContent.style="opacity:1";
+				callback();
 			}, 300);
 			
 			const activeLink = document.getElementsByClassName('nav-item-chosen')[0];

@@ -1,67 +1,11 @@
 <html>
   <head>
-    <script src="encoding.js"></script>
+    <script src="scripts/encoding.js"></script>
+    <script src="scripts/main.js"></script>
     <script>
-      const API_URL = 'http://77.47.131.170/api/documents';
-      function getDocuments() {
-        const documentsElement = document.getElementsByClassName('documents')[0];
-        documentsElement.innerHTML="";
-        fetch(API_URL, {
-          method: 'GET'
-        })
-        .then(array => array.json())
-        .then(array => {
-          array.forEach(obj => {
-            const data = obj.document.data.data; // contains array of integers
-
-            const arrayBuffer = new Uint8Array(data).buffer;//converts array of integers to Array Buffer
-            const fileContentBase64 = new TextDecoder("utf-8").decode(arrayBuffer);
-
-            const link = createLink(obj.document.name, fileContentBase64);
-            const deleteBtn = createDeleteButton(obj._id);
-            const documentItemElement = document.createElement('div');
-
-            documentItemElement.appendChild(link);
-            documentItemElement.appendChild(deleteBtn);
-            documentsElement.appendChild(documentItemElement);
-          });
-        })
-        .catch(err => console.log(err));
-      }
-
-      function deleteDocument(documentId) {
-        fetch(API_URL + '/' + documentId, {
-          method: 'DELETE'
-        })
-        .then(doc => {
-          console.log('Deleted');
-          getDocuments();
-        })
-        .catch(err => console.log(err));
-      }
-
-      function createLink(name, base64content) {
-        const a = document.createElement('a');
-        const linkTextNode = document.createTextNode(name);
-        a.appendChild(linkTextNode);
-        a.title = `Download ${name}`;
-        a.href = `data:application/pdf;base64,${base64content}`;
-        a.download = name;
-        return a;
-      }
-
-      function createDeleteButton(documentId) {
-        const button = document.createElement('button');
-        const buttonTextNode = document.createTextNode('Delete');
-        button.appendChild(buttonTextNode);
-        button.onclick = () => deleteDocument(documentId);
-        return button;
-      }
-      
-
       window.onload = () =>  {
         start();
-        getDocuments();
+        getDocumentsAndInsertIntoDom(true);
       }
       function start() {
 
@@ -111,7 +55,7 @@
           // Define what happens on successful data submission
           XHR.addEventListener('load', function(event) {
             console.log('Yeah! Data sent and response loaded.');
-            getDocuments();
+            getDocumentsAndInsertIntoDom(true);
           });
 
           // Define what happens in case of error
@@ -140,7 +84,7 @@
       <button type>Save Document</button>
     </form>
 
-    <div class="documents">
+    <div class="documents-list">
     </div>
   </body>
 </html>  
