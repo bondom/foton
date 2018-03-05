@@ -9,18 +9,13 @@ function getDocumentsAndInsertIntoDom(withDeleteBtn = false) {
   .then(array => array.json())
   .then(array => {
     array.forEach(obj => {
-      const data = obj.document.data.data; // contains array of integers
-
-      const arrayBuffer = new Uint8Array(data).buffer;//converts array of integers to Array Buffer
-      const fileContentBase64 = new TextDecoder("utf-8").decode(arrayBuffer);
-
+      const dataUrl = obj.document.data; // contains array of integers
+      console.log('dataUrl: ' + dataUrl);
       
       const documentItemElement = document.createElement('div');
-      const link = createLink(obj.document.name, fileContentBase64);
-      documentItemElement.appendChild(link);
+      documentItemElement.appendChild(createLink(obj.document.name, dataUrl));
       if (withDeleteBtn) {
-        const deleteBtn = createDeleteButton(obj._id);
-        documentItemElement.appendChild(deleteBtn);
+        documentItemElement.appendChild(createDeleteButton(obj._id));
       }
       documentsElement.appendChild(documentItemElement);
     });
@@ -39,12 +34,12 @@ function deleteDocument(documentId) {
   .catch(err => console.log(err));
 }
 
-function createLink(name, base64content) {
+function createLink(name, dataUrl) {
   const a = document.createElement('a');
   const linkTextNode = document.createTextNode(name);
   a.appendChild(linkTextNode);
   a.title = `Download ${name}`;
-  a.href = `data:application/pdf;base64,${base64content}`;
+  a.href = dataUrl;
   a.download = name;
   return a;
 }

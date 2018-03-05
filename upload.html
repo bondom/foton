@@ -1,6 +1,5 @@
 <html>
   <head>
-    <script src="scripts/encoding.js"></script>
     <script src="scripts/main.js"></script>
     <script>
       window.onload = () =>  {
@@ -24,7 +23,7 @@
             reader.abort();
           }
           
-          reader.readAsBinaryString(file.dom.files[0]);
+          reader.readAsDataURL(file.dom.files[0]);
         });
 
         // sendData is our main function
