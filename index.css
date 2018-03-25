@@ -1,4 +1,5 @@
-body, html {
+body,
+html {
   padding: 0px;
   margin: 0px;
 }
@@ -14,7 +15,7 @@ button {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 img#logo {
@@ -24,7 +25,6 @@ img#logo {
   left: 33px;
   flex-grow: 0;
 }
-
 
 .header-content {
   max-width: 1024px;
@@ -38,14 +38,14 @@ img#logo {
 }
 
 .header-top {
-  background: url('img.jpg') repeat-x;
+  background: url("img.jpg") repeat-x;
   background-size: 10px 10px;
   height: 5px;
   position: relative;
 }
 
 .header-footer {
-  background: url('img.jpg') repeat-x;
+  background: url("img.jpg") repeat-x;
   background-size: 30px 30px;
   height: 25px;
   position: relative;
@@ -55,7 +55,7 @@ h1 {
   font-weight: 100;
   align-self: flex-end;
   font-weight: bold;
-  font-family: 'Montserrat Alternates', sans-serif;
+  font-family: "Montserrat Alternates", sans-serif;
   color: #839ebd;
 }
 
@@ -82,7 +82,7 @@ nav {
 
 .nav-item {
   height: 50px;
-  line-height: 50px; 
+  line-height: 50px;
   width: 143px;
   box-sizing: border-box;
   text-align: center;
@@ -92,7 +92,7 @@ nav {
   cursor: pointer;
   outline: none;
   letter-spacing: 0.5;
-  font-family: 'Montserrat Alternates', sans-serif;
+  font-family: "Montserrat Alternates", sans-serif;
 }
 
 .nav-item:hover {
@@ -124,8 +124,9 @@ main {
   transition: opacity 0.3s linear;
 }
 
-
-.main-page, .contacts-page, .documents-page {
+.main-page,
+.contacts-page,
+.documents-page {
   transition: opacity 0.3s linear 0.3s, height 0s linear 0.6s;
   overflow: hidden;
 }
@@ -148,5 +149,9 @@ footer {
   height: 50px;
   line-height: 50px;
   text-align: center;
-  font-family: 'Montserrat Alternates', sans-serif;
+  font-family: "Montserrat Alternates", sans-serif;
+}
+
+p {
+  text-indent: 20px;
 }
